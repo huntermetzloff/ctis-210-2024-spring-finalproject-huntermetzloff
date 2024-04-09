@@ -1,3 +1,4 @@
+package edu.guilford;
 import java.util.Random;
 
 public class Player {
@@ -13,13 +14,14 @@ public class Player {
     private String playerClass; // the player's class
     private int playerGold; // How much gold the player has
     private String playerPic; // set the string for the picture used
-    
+
     Random rand = new Random();
     Random randStats = new Random();
-    //Constructor
-    public Player(){
+
+    // Constructor
+    public Player() {
         int randomClass = rand.nextInt(11);
-        if(randomClass == 0){
+        if (randomClass == 0) {
             playerClass = "Warrior"; // high str and dex
             strength = 10;
             agility = 9;
@@ -29,8 +31,8 @@ public class Player {
             luck = 5;
             faith = 5;
             playerGold = 5;
-        }
-        else if(randomClass == 1){
+            playerPic = "warrior_redHead.png";
+        } else if (randomClass == 1) {
             playerClass = "Rogue"; // High dex and luck
             strength = 6;
             agility = 10;
@@ -40,9 +42,8 @@ public class Player {
             luck = 9;
             faith = 2;
             playerGold = 10;
-
-        }
-        else if(randomClass == 2){
+            playerPic = "rogue.png";
+        } else if (randomClass == 2) {
             playerClass = "Wizard"; // High intelligence and wisdom
             strength = 2;
             agility = 1;
@@ -52,8 +53,8 @@ public class Player {
             luck = 6;
             faith = 6;
             playerGold = 2;
-        }
-        else if(randomClass == 3){
+            playerPic = "wizard_blue.png";
+        } else if (randomClass == 3) {
             playerClass = "Bard"; // High Charisma and wisdom
             strength = 2;
             agility = 5;
@@ -63,8 +64,8 @@ public class Player {
             luck = 9;
             faith = 4;
             playerGold = 7;
-            }
-        else if(randomClass == 4){
+            playerPic = "bard.png";
+        } else if (randomClass == 4) {
             playerClass = "Gambler"; // High luck and faith
             strength = 4;
             agility = 5;
@@ -74,8 +75,8 @@ public class Player {
             luck = 10;
             faith = 9;
             playerGold = 15;
-        }
-        else if(randomClass == 5){
+            playerPic = "gambler.png";
+        } else if (randomClass == 5) {
             playerClass = "Paladin"; // High faith and strength
             strength = 10;
             agility = 4;
@@ -85,11 +86,10 @@ public class Player {
             luck = 4;
             faith = 10;
             playerGold = 0;
-            playerPic = "red_paladin";
+            playerPic = "red_paladin.png";
 
-        }
-        else if(randomClass == 6){
-            playerClass = "Artificer"; //High intelligence 
+        } else if (randomClass == 6) {
+            playerClass = "Artificer"; // High intelligence
             strength = 3;
             agility = 6;
             intelligence = 10;
@@ -98,10 +98,9 @@ public class Player {
             luck = 4;
             faith = 4;
             playerGold = 5;
-            playerPic = "artificer";
-        }
-        else if(randomClass ==7){
-            playerClass = "Confessor"; //Hybrid melee and faith
+            playerPic = "artificer.png";
+        } else if (randomClass == 7) {
+            playerClass = "Confessor"; // Hybrid melee and faith
             strength = 10;
             agility = 10;
             intelligence = 2;
@@ -110,8 +109,8 @@ public class Player {
             luck = 2;
             faith = 10;
             playerGold = 0;
-        }
-        else if(randomClass == 8){
+            playerPic = "confessor.png";
+        } else if (randomClass == 8) {
             playerClass = "Samurai"; // wisdom, strength, dex
             strength = 8;
             agility = 8;
@@ -121,9 +120,9 @@ public class Player {
             luck = 4;
             faith = 4;
             playerGold = 5;
-        }
-        else if(randomClass == 9){
-            playerClass = "Wretch"; // even stat line 
+            playerPic = "samurai.png";
+        } else if (randomClass == 9) {
+            playerClass = "Wretch"; // even stat line
             strength = 5;
             agility = 5;
             intelligence = 5;
@@ -132,8 +131,8 @@ public class Player {
             luck = 5;
             faith = 5;
             playerGold = 5;
-        }
-        else if(randomClass == 10){
+            playerPic = "wretch.png";
+        } else if (randomClass == 10) {
             playerClass = "Prisoner"; // intelligence + dex, medium strength
             strength = 7;
             agility = 10;
@@ -143,57 +142,43 @@ public class Player {
             luck = 3;
             faith = 3;
             playerGold = 2;
-        
-        }
-        
-         
+            playerPic = "prisoner.png";
 
-        int nameValue = rand.nextInt(0,12);
-        if (nameValue == 0){
+        }
+
+        int nameValue = rand.nextInt(0, 12);
+        if (nameValue == 0) {
             name = "Smith Smithson";
-            }
-        else if (nameValue == 1){
+        } else if (nameValue == 1) {
             name = "John Johnson";
-        }
-        else if (nameValue == 2){
+        } else if (nameValue == 2) {
             name = "Jimmy Jimmyson";
-        }
-        else if(nameValue == 3){
+        } else if (nameValue == 3) {
             name = "Phil Philson";
-        }
-        else if(nameValue == 4){
+        } else if (nameValue == 4) {
             name = "Hunter Metzloff";
-        }
-        else if(nameValue == 5){
+        } else if (nameValue == 5) {
             name = "Jonah Morris";
-        }
-        else if(nameValue == 6){
+        } else if (nameValue == 6) {
             name = "Greg Lewinksy";
-        }
-        else if(nameValue == 7){
+        } else if (nameValue == 7) {
             name = "Tildrith Goodwoman";
-        }
-        else if(nameValue == 8){
+        } else if (nameValue == 8) {
             name = "Job Nebuchadnezzar";
-            }
-            else if(nameValue == 9){
-                name = "Meli Jenser";
-            }
-            else if(nameValue == 10){
-                name = "Johannes Johanson";
+        } else if (nameValue == 9) {
+            name = "Meli Jenser";
+        } else if (nameValue == 10) {
+            name = "Johannes Johanson";
 
-            }
-            else if(nameValue == 11){
-                name = "Obu Obu Obu";
-            }
-            else if(nameValue == 12){
-                name = "Temere Persona";
-            }
+        } else if (nameValue == 11) {
+            name = "Obu Obu Obu";
+        } else if (nameValue == 12) {
+            name = "Temere Persona";
+        }
     }
 
     // Getters and Setters
 
-    
     public double getStrength() {
         return strength;
     }
@@ -285,8 +270,8 @@ public class Player {
     @Override
     public String toString() {
         return "Player [strength=" + strength + ", agility=" + agility + ", intelligence=" + intelligence + ", wisdom="
-                + wisdom + ", charisma=" + charisma + ", luck=" + luck + ", name=" + name + ", class=" + playerClass + " ]";
+                + wisdom + ", charisma=" + charisma + ", luck=" + luck + ", name=" + name + ", class=" + playerClass
+                + " ]";
     }
 
-    
 }
