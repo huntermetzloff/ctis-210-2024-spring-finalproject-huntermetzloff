@@ -1,4 +1,5 @@
 package edu.guilford;
+
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -14,7 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class CardFrame extends JFrame {
-    // Delcare the list of players
+
+    // Declare the list of players
     private ArrayList<Player> players;
 
     private CardLayout cardLayout;
@@ -23,6 +25,7 @@ public class CardFrame extends JFrame {
     private JPanel homePanel;
     private PlayerPanel characterPanel;
     private SewerPanel sewerPanel;
+    private tutorialPanel tutorialPanel;
 
     // Labels
     private JLabel titleLabel;
@@ -32,6 +35,18 @@ public class CardFrame extends JFrame {
 
     // Start game Button
     private JButton startGame;
+
+    // Let's generate a getter for the character panel
+
+    public PlayerPanel getCharacterPanel() {
+        return characterPanel;
+    }
+
+    // let's generate a getter for the sewer panel
+
+    public SewerPanel getSewerPanel() {
+        return sewerPanel;
+    }
 
     // Let's create the method that allows us to add players to the panel
     public CardFrame(ArrayList<Player> players) {
@@ -92,6 +107,9 @@ public class CardFrame extends JFrame {
         container.add("a", homePanel);
         container.add("b", characterPanel);
         container.add("c", sewerPanel);
+        container.add("d", tutorialPanel);
+
+        
     }
 
     public class NextCardListener implements ActionListener {
@@ -103,9 +121,11 @@ public class CardFrame extends JFrame {
 
     }
 
-    public void nextCard(){
+    public void nextCard() {
         cardLayout.next(container);
-    }
+        
+        }
+    
 
     private class QuitGameListener implements ActionListener {
 

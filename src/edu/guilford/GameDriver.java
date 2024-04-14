@@ -15,7 +15,11 @@ import java.util.ArrayList;
 import java.awt.Color;
 
 public class GameDriver {
+
+    
     public static void main(String[] args) {
+
+        
         // Below will create a list of player characters that are supposed to be
         // displayed after hitting the start game button
         ArrayList<Player> players = new ArrayList<Player>();
@@ -34,12 +38,21 @@ public class GameDriver {
         
 
         // Below will code in the Player Panel
-        PlayerPanel playerPanel = new PlayerPanel(players);
-        playerPanel.setVisible(true);
-        playerPanel.setCardDemo(masterFrame);
+        PlayerPanel characterPanel = masterFrame.getCharacterPanel();
+        characterPanel.setVisible(true);
+        characterPanel.setCardDemo(masterFrame);
+        
 
         // Below will code in the Sewer Panel
-        SewerPanel sewerPanel = new SewerPanel(players);
+        SewerPanel sewerPanel = masterFrame.getSewerPanel();
+        sewerPanel.setVisible(true);
+        sewerPanel.setCardDemo(masterFrame);
+
+        // Below will code sewer panel for control through player panel
+        characterPanel.setControlSewer(sewerPanel);
+
+        // below will code in the tutorial panel
+        
         
 
         // System.out.println("The list of pcs are: " + players);

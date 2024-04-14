@@ -269,8 +269,8 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Player [strength=" + strength + ", agility=" + agility + ", intelligence=" + intelligence + ", wisdom="
-                + wisdom + ", charisma=" + charisma + ", luck=" + luck + ", name=" + name + ", class=" + playerClass
+        return "Player [strength=" + strength + "\n agility=" + agility + "\n intelligence=" + intelligence + "\n wisdom="
+                + wisdom + "\n charisma=" + charisma + "\n luck=" + luck + "\n name=" + name + "\n class=" + playerClass
                 + " ]";
     }
 

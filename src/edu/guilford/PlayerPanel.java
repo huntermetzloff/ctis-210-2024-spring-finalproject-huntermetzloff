@@ -1,4 +1,5 @@
 package edu.guilford;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -20,6 +21,14 @@ import javax.swing.SwingConstants;
 
 public class PlayerPanel extends JPanel {
 
+    // Declare the main character
+private Player mainCharacter;
+
+
+    public void setMainCharacter(Player mainCharacter) {
+    this.mainCharacter = mainCharacter;
+}
+
     public static final String TEXT_YELLOW = "\u001B[93m";
 
     // Delcare the list of players
@@ -31,7 +40,7 @@ public class PlayerPanel extends JPanel {
     // Declare a new Font object and characteristics
     private Font choiceFont;
     private String fontFamily = "Helvetica";
-    private int fontSize = 40;
+    private int fontSize = 45;
 
     // Radio Buttons for Character Choice
     private JRadioButton playerOneRadio;
@@ -71,13 +80,25 @@ public class PlayerPanel extends JPanel {
     // declare the button that will move the player into the game sewer
     private JButton sewerStartButton;
 
+    // declare the labels that will display the character stats
+    private JLabel player1Class;
+    private JLabel player2Class;
+    private JLabel player3Class;
+
     // Below will instantiate a new next card listener to try and change cards
-   private CardFrame cardDemo;
-        
+    private CardFrame cardDemo;
+
 
     public void setCardDemo(CardFrame cardDemo) {
-    this.cardDemo = cardDemo;
-}
+        this.cardDemo = cardDemo;
+    }
+
+    // below will instantiate a sewer panel to get this panel to control the sewer panel
+    public SewerPanel controlSewer;
+    
+    public void setControlSewer(SewerPanel controlSewer) {
+        this.controlSewer = controlSewer;
+    }
 
     // Let's create the method that allows us to add players to the panel
     public PlayerPanel(ArrayList<Player> players) {
@@ -162,6 +183,11 @@ public class PlayerPanel extends JPanel {
         sewerStartButton = new JButton("Enter the Sewer");
         sewerStartButton.setForeground(sicklyYellow);
 
+        // instantiate the JLabels that will display stats
+        player1Class = new JLabel("Class: " + players.get(0).getPlayerClass());
+        player2Class = new JLabel("Class: " + players.get(1).getPlayerClass());
+        player3Class = new JLabel("Class: " + players.get(2).getPlayerClass());
+
         // set the player one label to have the player one icon
         playerOneLabel.setIcon(playerOneIcon);
 
@@ -200,10 +226,6 @@ public class PlayerPanel extends JPanel {
         // Below will instantiate the Radio button listener
         ChoiceRadioListener playerChoiceListener = new ChoiceRadioListener();
 
-        
-        
-        
-
         // add the player choice listener to the radio buttons
         playerOneRadio.addActionListener(playerChoiceListener);
         playerTwoRadio.addActionListener(playerChoiceListener);
@@ -211,7 +233,6 @@ public class PlayerPanel extends JPanel {
 
         // add the next card listener to the sewer start button
         sewerStartButton.addActionListener(new SewerStartListener());
-       
 
         // add the choice label to the panel
         add(choiceLabel);
@@ -237,28 +258,36 @@ public class PlayerPanel extends JPanel {
         panelHolder[0][1].add(choiceLabel);
 
         // radio buttons grid add
-        panelHolder[3][0].add(playerOneRadio);
-        panelHolder[3][1].add(playerTwoRadio);
-        panelHolder[3][2].add(playerThreeRadio);
+        panelHolder[2][0].add(playerOneRadio);
+        panelHolder[2][1].add(playerTwoRadio);
+        panelHolder[2][2].add(playerThreeRadio);
 
         // player lables gridd add
-        panelHolder[2][0].add(playerOneLabel);
-        panelHolder[2][1].add(playerTwoLabel);
-        panelHolder[2][2].add(playerThreeLabel);
+        panelHolder[1][0].add(playerOneLabel);
+        panelHolder[1][1].add(playerTwoLabel);
+        panelHolder[1][2].add(playerThreeLabel);
 
         // sewere button label gridd add
         panelHolder[4][2].add(sewerStartButton);
+
+        // add the JLabels for the stats
+        panelHolder[3][0].add(player1Class);
+        panelHolder[3][1].add(player2Class);
+        panelHolder[3][2].add(player3Class);
     }
     // Below will be the methods
 
-    private void choosePlayerCharacter() {
+    public Player choosePlayerCharacter() {
         if (selectedButton == playerOneRadio) {
-            playerDecision = players.get(0);
+            mainCharacter = players.get(0);
         } else if (selectedButton == playerTwoRadio) {
-            playerDecision = players.get(1);
+            mainCharacter = players.get(1);
         } else if (selectedButton == playerThreeRadio) {
-            playerDecision = players.get(2);
+            mainCharacter = players.get(2);
         }
+        System.out.println("The main character is: " + mainCharacter);
+
+        return mainCharacter;
     }
 
     // Below will be the listeners
@@ -277,6 +306,8 @@ public class PlayerPanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            players.clear();
+            players.add(mainCharacter);
             cardDemo.nextCard();
         }
 
