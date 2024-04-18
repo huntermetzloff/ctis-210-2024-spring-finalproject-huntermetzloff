@@ -19,13 +19,17 @@ public class CardFrame extends JFrame {
     // Declare the list of players
     private ArrayList<Player> players;
 
+    private ArrayList<Enemy> enemies;
+
     private CardLayout cardLayout;
     private Container container;
     // JPanels
     private JPanel homePanel;
     private PlayerPanel characterPanel;
     private SewerPanel sewerPanel;
-    private tutorialPanel tutorialPanel;
+    private TutorialPanel tutorialPanel;
+    private RepeatPanel repeatPanel;
+    private ScorePanel scorePanel;
 
     // Labels
     private JLabel titleLabel;
@@ -35,6 +39,22 @@ public class CardFrame extends JFrame {
 
     // Start game Button
     private JButton startGame;
+
+
+    
+
+    public ScorePanel getScorePanel() {
+        return scorePanel;
+    }
+
+    public void setScorePanel(ScorePanel scorePanel) {
+        this.scorePanel = scorePanel;
+    }
+
+    // let's generate a getter for the tutorial panel
+    public TutorialPanel getTutorialPanel() {
+        return tutorialPanel;
+    }
 
     // Let's generate a getter for the character panel
 
@@ -48,12 +68,28 @@ public class CardFrame extends JFrame {
         return sewerPanel;
     }
 
+    public void setSewerPanel(SewerPanel sewerPanel) {
+        this.sewerPanel = sewerPanel;
+    }
+
+
+    
+
+    public RepeatPanel getRepeatPanel() {
+        return repeatPanel;
+    }
+
+    public void setRepeatPanel(RepeatPanel repeatPanel) {
+        this.repeatPanel = repeatPanel;
+    }
+
     // Let's create the method that allows us to add players to the panel
-    public CardFrame(ArrayList<Player> players) {
+    public CardFrame(ArrayList<Player> players, ArrayList<Enemy> enemies) {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // set it to automatically maximize
         setExtendedState(MAXIMIZED_BOTH);
         this.players = players;
+        this.enemies = enemies;
         CreateCardLayout();
     }
 
@@ -65,10 +101,15 @@ public class CardFrame extends JFrame {
 
         // Instantiate the components
         homePanel = new JPanel();
-        characterPanel = new PlayerPanel(players);
-        sewerPanel = new SewerPanel(players);
+        characterPanel = new PlayerPanel(players, enemies);
+        sewerPanel = new SewerPanel(players, enemies);
+        tutorialPanel = new TutorialPanel(players, enemies);
+        repeatPanel = new RepeatPanel(players, enemies);
+        scorePanel = new ScorePanel(players, enemies);
 
-        // Instantiate the Start and Quit game buttons
+        characterPanel.setVisible(false);
+
+        // Instantiate the Start and Quit game button
         startGame = new JButton("Start Game");
         quitGame = new JButton("Quit Game");
 
@@ -104,18 +145,20 @@ public class CardFrame extends JFrame {
         homePanel.add(quitGame);
 
         // add the components to the container
-        container.add("a", homePanel);
-        container.add("b", characterPanel);
-        container.add("c", sewerPanel);
-        container.add("d", tutorialPanel);
+        container.add(homePanel);
+        container.add(characterPanel);
+        container.add(sewerPanel);
+        container.add(tutorialPanel);
+        container.add(repeatPanel);
+        container.add(scorePanel);
 
-        
     }
 
     public class NextCardListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            characterPanel.setVisible(true);
             nextCard();
         }
 
@@ -123,9 +166,12 @@ public class CardFrame extends JFrame {
 
     public void nextCard() {
         cardLayout.next(container);
-        
-        }
-    
+
+    }
+    public void RepeatCard(){
+        container.add(new RepeatPanel(players, enemies));
+        cardLayout.next(container);
+    }
 
     private class QuitGameListener implements ActionListener {
 

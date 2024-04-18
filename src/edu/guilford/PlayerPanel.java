@@ -22,17 +22,21 @@ import javax.swing.SwingConstants;
 public class PlayerPanel extends JPanel {
 
     // Declare the main character
-private Player mainCharacter;
-
+    private Player mainCharacter;
 
     public void setMainCharacter(Player mainCharacter) {
-    this.mainCharacter = mainCharacter;
-}
+        this.mainCharacter = mainCharacter;
+    }
+
+    public Player getMainCharacter() {
+        return mainCharacter;
+    }
 
     public static final String TEXT_YELLOW = "\u001B[93m";
 
     // Delcare the list of players
     private ArrayList<Player> players;
+    private ArrayList<Enemy> enemies;
 
     // Declare the choice panel
     private JLabel choiceLabel;
@@ -88,26 +92,45 @@ private Player mainCharacter;
     // Below will instantiate a new next card listener to try and change cards
     private CardFrame cardDemo;
 
-
     public void setCardDemo(CardFrame cardDemo) {
         this.cardDemo = cardDemo;
     }
 
-    // below will instantiate a sewer panel to get this panel to control the sewer panel
+    // below will instantiate a sewer panel to get this panel to control the sewer
+    // panel
     public SewerPanel controlSewer;
-    
+
     public void setControlSewer(SewerPanel controlSewer) {
         this.controlSewer = controlSewer;
     }
 
+    public ScorePanel controlScore;
+
+    public void setControlScore(ScorePanel controlScore) {
+        this.controlScore = controlScore;
+    }
+
+    public TutorialPanel controlTutorial;
+
+    public void setControlTutorial(TutorialPanel controlTutorial) {
+        this.controlTutorial = controlTutorial;
+    }
+
+    public RepeatPanel controlRepeat;
+
+    public void setControlRepeat(RepeatPanel controlRepeat) {
+        this.controlRepeat = controlRepeat;
+    }
+
     // Let's create the method that allows us to add players to the panel
-    public PlayerPanel(ArrayList<Player> players) {
+    public PlayerPanel(ArrayList<Player> players, ArrayList<Enemy> enemies) {
         // Set the size of the panel
         setPreferredSize(new Dimension(1000, 800));
         // Set the color of the panel
         setBackground(new Color(150, 50, 150));
 
         this.players = players;
+        this.enemies = enemies;
         initPanel();
     }
 
@@ -133,6 +156,8 @@ private Player mainCharacter;
                 add(panelHolder[m][n]);
             }
         }
+        // Initialize the main character
+        mainCharacter = players.get(0);
 
         // Initialize the font
         choiceFont = new Font(fontFamily, 0, fontSize);
@@ -171,13 +196,13 @@ private Player mainCharacter;
         playerThreeLabel = new JLabel(players.get(2).getName());
 
         // intantiate the player one icon
-        playerOneIcon = new ImageIcon("src/edu/guilford/resources/" + players.get(0).getPlayerPic());
+        playerOneIcon = new ImageIcon(players.get(0).getPlayerPic());
 
         // instantiate the player two icon
-        playerTwoIcon = new ImageIcon("src/edu/guilford/resources/" + players.get(1).getPlayerPic());
+        playerTwoIcon = new ImageIcon(players.get(1).getPlayerPic());
 
         // instantiate the player three icon
-        playerThreeIcon = new ImageIcon("src/edu/guilford/resources/" + players.get(2).getPlayerPic());
+        playerThreeIcon = new ImageIcon(players.get(2).getPlayerPic());
 
         // instantiate the sewer button
         sewerStartButton = new JButton("Enter the Sewer");
@@ -201,6 +226,10 @@ private Player mainCharacter;
         playerOneLabel.setForeground(sicklyYellow);
         playerTwoLabel.setForeground(sicklyYellow);
         playerThreeLabel.setForeground(sicklyYellow);
+
+        player1Class.setForeground(sicklyYellow);
+        player2Class.setForeground(sicklyYellow);
+        player3Class.setForeground(sicklyYellow);
 
         // below will attempt to set the bounds of the radio buttons
         playerOneRadio.setBounds(150, 200, 100, 75);
@@ -275,6 +304,9 @@ private Player mainCharacter;
         panelHolder[3][1].add(player2Class);
         panelHolder[3][2].add(player3Class);
     }
+
+    // getter for main character
+
     // Below will be the methods
 
     public Player choosePlayerCharacter() {
@@ -285,9 +317,15 @@ private Player mainCharacter;
         } else if (selectedButton == playerThreeRadio) {
             mainCharacter = players.get(2);
         }
-        System.out.println("The main character is: " + mainCharacter);
 
         return mainCharacter;
+    }
+
+    public void updateMainCharacter() {
+        controlSewer.setSewerMainCharacter(mainCharacter);
+        controlTutorial.setTutorialMainCharacter(mainCharacter);
+        controlRepeat.setRepeatMainCharacter(mainCharacter);
+        controlScore.setScoreMainCharacter(mainCharacter);
     }
 
     // Below will be the listeners
@@ -298,6 +336,7 @@ private Player mainCharacter;
         public void actionPerformed(ActionEvent e) {
             selectedButton = (JRadioButton) e.getSource();
             choosePlayerCharacter();
+
         }
 
     }
@@ -306,8 +345,10 @@ private Player mainCharacter;
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            players.clear();
-            players.add(mainCharacter);
+            // clear the list
+
+            updateMainCharacter();
+
             cardDemo.nextCard();
         }
 

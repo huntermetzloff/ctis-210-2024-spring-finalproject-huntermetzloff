@@ -18,6 +18,11 @@ import javax.swing.border.Border;
 
 public class SewerPanel extends JPanel {
 
+    // ideas for player fixes
+    // create method that will create an icon for the player inside the player
+    // object or something else
+    // repaint -- didn't work? why?
+
     private ImageIcon sewerIcon;
     private JLabel sewerLabel;
 
@@ -32,6 +37,9 @@ public class SewerPanel extends JPanel {
 
     // Delcare the list of players
     private ArrayList<Player> players;
+
+    // declare the list of enemies
+    private ArrayList<Enemy> enemies;
 
     // Declare some integers to help with creation of frame
     private int panelWidth = 1000;
@@ -55,14 +63,36 @@ public class SewerPanel extends JPanel {
     // Below will instantiate a new next card listener to try and change cards
     private CardFrame cardDemo;
 
+    // below will instantiate the main character
+    private Player sewerMainCharacter;
+
+    // below will instantiate the player panel
+    private PlayerPanel controlCharacter;
+
+    // private JButton
+    private JButton updateButton;
+
+    // below will be a setter for main character
+    public void setSewerMainCharacter(Player sewerMainCharacter) {
+        this.sewerMainCharacter = sewerMainCharacter;
+        playerIcon = new ImageIcon(sewerMainCharacter.getPlayerPic());
+
+        playerLabel.setIcon(playerIcon);
+    }
+
+    public Player getSewerMainCharacter() {
+        return sewerMainCharacter;
+    }
+
     public void setCardDemo(CardFrame cardDemo) {
         this.cardDemo = cardDemo;
     }
 
     // Let's create the method that allows us to add players to the panel
-    public SewerPanel(ArrayList<Player> players) {
+    public SewerPanel(ArrayList<Player> players, ArrayList<Enemy> enemies) {
 
         this.players = players;
+        this.enemies = enemies;
         initSewerPanel();
     }
 
@@ -74,6 +104,8 @@ public class SewerPanel extends JPanel {
         // Set the size of the panel
         setPreferredSize(new Dimension(panelWidth, panelHeight));
 
+        // instantiate the main character
+        sewerMainCharacter = players.get(0);
         // instantiate the dialogue font
         dialogueFont = new Font("Helvetica", 0, 12);
 
@@ -81,9 +113,7 @@ public class SewerPanel extends JPanel {
         sewerIcon = new ImageIcon("src/edu/guilford/resources/sewer_1.png");
 
         // instantiate the player icon
-        playerIcon = new ImageIcon("src/edu/guilford/resources/" + players.get(0).getPlayerPic());
-        // System.out.println("The sewer panel player is: " +
-        // players.get(0).toString());
+        playerIcon = new ImageIcon(sewerMainCharacter.getPlayerPic());
 
         // instantaite the tutorial wizard icon
         tutorialIcon = new ImageIcon("src/edu/guilford/resources/wizard_red.png");
@@ -97,9 +127,11 @@ public class SewerPanel extends JPanel {
         // instantiate the tutorial wizard label
         tutorialWizardLabel = new JLabel();
 
+        
+
         // instantiate the dialogue label
-        dialogueArea = new JTextArea("Hello weary " + players.get(0).getPlayerClass() + " and welcome to the sewer. I am the tutorial wizard and will show you how to play this game. Follow me into the dungon by pressing the button that says 'next room'");
-        //set wrap text to true so that the text wraps within the area
+        dialogueArea = new JTextArea("Hello weary traveler and welcome to the sewer. I am the tutorial wizard and will show you how to play this game. Follow me into the dungon by pressing the button that says 'next room'");
+        // set wrap text to true so that the text wraps within the area
         dialogueArea.setLineWrap(true);
 
         // instantiate the layered pane
@@ -111,6 +143,8 @@ public class SewerPanel extends JPanel {
 
         // set the bounds of the next button
         nextButton.setBounds(1400, 20, 100, 50);
+
+        
 
         // set the bounds of the layered pane
         layeredPane.setBounds(0, 0, 1550, 795);
@@ -152,6 +186,9 @@ public class SewerPanel extends JPanel {
         // add the action listener to the next button
         nextButton.addActionListener(new NextRoomListener());
 
+       
+       
+
         // add the diaglogue label to the layered pane
         layeredPane.add(dialogueArea);
 
@@ -167,18 +204,21 @@ public class SewerPanel extends JPanel {
         // add sewer label to the layered pane
         layeredPane.add(sewerLabel);
 
+        
+
         // add the layered pane to the panel
         add(layeredPane);
 
     }
 
-    private class NextRoomListener implements ActionListener{
+    private class NextRoomListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+
             cardDemo.nextCard();
         }
-        
+
     }
 
 }

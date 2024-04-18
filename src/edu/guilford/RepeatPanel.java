@@ -1,3 +1,4 @@
+
 package edu.guilford;
 
 import java.awt.Color;
@@ -22,7 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.Border;
 
-public class TutorialPanel extends JPanel {
+public class RepeatPanel extends JPanel {
 
     // Delcare the list of players
     private ArrayList<Player> players;
@@ -32,21 +33,23 @@ public class TutorialPanel extends JPanel {
     private Enemy tutorialEnemy;
     private Enemy tutorialEnemy2;
 
+    // declare enemy damage
+    private double enemyDamage;
+
     // declare the initial label
     private JLabel tutorialLabel;
 
     // declare the player label
     private JLabel playerLabel;
 
+    // declare the score label
+    private JLabel scoreLabel;
+
     // declare the enemy label
     private JLabel enemyLabel;
 
     // declare 2nd enemy label
     private JLabel enemyLabel2;
-
-
-    // declare the tutorial wizard label
-    private JLabel tutorialWizardLabel;
 
     private JTextArea victoryJTextArea;
 
@@ -63,11 +66,11 @@ public class TutorialPanel extends JPanel {
 
     private ImageIcon enemyImageIcon2;
 
-    private ImageIcon tutorialWizardIcon;
-
     private Player mainCharacter;
 
     private JButton nextRoomButton;
+
+    
 
     // delcare the health bars (rectangles)
 
@@ -90,12 +93,8 @@ public class TutorialPanel extends JPanel {
 
     private Font victoryFont;
 
-    // declare the wizard tutorial dialogue
-    private JTextArea wizardDialogue1;
-
-     // declare the font used for dialogue
-     private Font dialogueFont;
-
+    // declare the font used for dialogue
+    private Font dialogueFont;
 
     // declare the focused enemy;
     private Enemy focusedEnemy;
@@ -103,45 +102,45 @@ public class TutorialPanel extends JPanel {
     // declare the focused JLabel
     private JLabel focusedJLabel;
 
-    // declare the second wizard dialogue box
-    private JTextArea wizardDialogue2;
-
-
     // Below will instantiate a new next card listener to try and change cards
     private CardFrame cardDemo;
+
+    public TutorialPanel controlTutorial;
+
+    public ScorePanel controlRepeatScore;
+
+
+
+
+    
+    public void setControlRepeatScore(ScorePanel controlRepeatScore) {
+        this.controlRepeatScore = controlRepeatScore;
+    }
+
+    public void setControlTutorial(TutorialPanel controlTutorial) {
+        this.controlTutorial = controlTutorial;
+    }
 
     public void setCardDemo(CardFrame cardDemo) {
         this.cardDemo = cardDemo;
 
     }
 
-    public void setTutorialMainCharacter(Player mainCharacter) {
+    public void setRepeatMainCharacter(Player mainCharacter) {
         this.mainCharacter = mainCharacter;
         player = new ImageIcon(mainCharacter.getPlayerPic());
         playerLabel.setIcon(player);
     }
 
-
-
-
-
-
-
-
-
-    public Player getMainCharacter() {
-        return mainCharacter;
-    }
-
     // Let's create the method that allows us to add players to the panel
-    public TutorialPanel(ArrayList<Player> players, ArrayList<Enemy> enemies) {
+    public RepeatPanel(ArrayList<Player> players, ArrayList<Enemy> enemies) {
 
         this.players = players;
         this.enemies = enemies;
-        initTutorialPanel();
+        initRepeatPanel();
     }
 
-    public void initTutorialPanel() {
+    public void initRepeatPanel() {
         setLayout(null);
 
         // instantiate the font
@@ -164,14 +163,14 @@ public class TutorialPanel extends JPanel {
 
         enemyLabel2 = new JLabel();
 
-        tutorialWizardLabel = new JLabel();
-
         actionLabel = new JLabel("CONTROLS");
 
-        victoryJTextArea= new JTextArea("VICTORY!!!");
+        scoreLabel = new JLabel("Wow you died, and your score was: " + mainCharacter.getPlayerGold());
 
-        wizardDialogue1 = new JTextArea("These are your first enemies, click on an enemy to target it and then use the 'Attack' or 'Use Spell' button to do damage to it. Players with higher physical stats will do more damage with an attack, whilst players with higher mental stats will do more damage with spells.");
-        wizardDialogue2 = new JTextArea("Perfect! Whenever you slay an enemy, gold will be added to your score, now click the next room button and continue fighting monsters till you keel over. From this point onward, monsters will attack you once attacked, be careful and try to get the highest score possible!");
+        scoreLabel.setVisible(false);
+
+        victoryJTextArea = new JTextArea("VICTORY!!!");
+
         // instantiate the dialogue font
         dialogueFont = new Font("Helvetica", 0, 12);
 
@@ -183,7 +182,6 @@ public class TutorialPanel extends JPanel {
         player = new ImageIcon(players.get(0).getPlayerPic());
         enemy = new ImageIcon(tutorialEnemy.getEnemyPic());
         enemyImageIcon2 = new ImageIcon(tutorialEnemy2.getEnemyPic());
-        tutorialWizardIcon = new ImageIcon("src/edu/guilford/resources/wizard_red.png");
 
         // instantiate the buttons
         attackButton = new JButton("Attack");
@@ -199,50 +197,20 @@ public class TutorialPanel extends JPanel {
         enemyLabel.setBounds(1000, 500, 100, 100);
         enemyLabel2.setBounds(1200, 500, 100, 100);
         victoryJTextArea.setBounds(600, 400, 300, 75);
+        scoreLabel.setBounds(600, 400, 300, 200);
         actionLabel.setBounds(20, 600, 400, 300);
-        tutorialWizardLabel.setBounds(350, 500, 100, 100);
-
-        // set the bounds of the dialogue label
-        wizardDialogue1.setBounds(300, 600, 300, 100);
-        wizardDialogue2.setBounds(300, 600, 300, 100);
-// set the font of the dialogue area
-wizardDialogue1.setFont(dialogueFont);
-wizardDialogue2.setFont(dialogueFont);
- // set the background of the dialogue label
- wizardDialogue1.setBackground(Color.BLACK);
- wizardDialogue2.setBackground(Color.BLACK);
- wizardDialogue1.setOpaque(true);
- wizardDialogue2.setOpaque(true);
- // set the foreground of the dialogue label
- wizardDialogue1.setForeground(Color.WHITE);
- wizardDialogue2.setForeground(Color.WHITE);
-// set the border of the dialogue label
-Border dialogueBorder = BorderFactory.createLineBorder(Color.WHITE);
-wizardDialogue1.setBorder(dialogueBorder);
-wizardDialogue2.setBorder(dialogueBorder);
-
 
         // define where the buttons go
         attackButton.setBounds(20, 600, 100, 25);
         spellButton.setBounds(20, 625, 100, 25);
         nextRoomButton.setBounds(1400, 20, 100, 50);
 
-
-        // set the text in the wizard dialogue to wrap
-  
-        wizardDialogue1.setLineWrap(true);
-        wizardDialogue2.setLineWrap(true);
-
-
-
         // set victory label to false
         victoryJTextArea.setVisible(false);
 
-        // set wizard dialgoue 2 to be non visible
-        wizardDialogue2.setVisible(false);
-
         // set font for the victory label
         victoryJTextArea.setFont(victoryFont);
+        scoreLabel.setFont(victoryFont);
 
         // SET ACTION LABEL TO VISIBLE
         actionLabel.setVisible(true);
@@ -250,6 +218,9 @@ wizardDialogue2.setBorder(dialogueBorder);
         // set the background of victory label
         victoryJTextArea.setBackground(new Color(100, 100, 100));
         victoryJTextArea.setForeground(Color.WHITE);
+        scoreLabel.setBackground(new Color(100, 100, 100));
+        scoreLabel.setForeground(Color.RED);
+
 
         // set the background of the action label
         actionLabel.setBackground(Color.WHITE);
@@ -269,16 +240,12 @@ wizardDialogue2.setBorder(dialogueBorder);
         playerLabel.setIcon(player);
         enemyLabel.setIcon(enemy);
         enemyLabel2.setIcon(enemyImageIcon2);
-        tutorialWizardLabel.setIcon(tutorialWizardIcon);
 
         // set the components to be nonfocusable
         victoryJTextArea.setFocusable(false);
         attackButton.setFocusable(false);
         spellButton.setFocusable(false);
-        tutorialWizardLabel.setFocusable(false);
         playerLabel.setFocusable(false);
-        wizardDialogue1.setFocusable(false);
-        wizardDialogue2.setFocusable(false);
         tutorialLabel.setFocusable(false);
         layeredPane.setFocusable(false);
 
@@ -288,32 +255,25 @@ wizardDialogue2.setBorder(dialogueBorder);
 
         // set the first enemy to be focused
         focusedEnemy = tutorialEnemy;
-       
-       // make next room button inivisble
-       nextRoomButton.setVisible(false);
+
+        // make next room button inivisble
+        nextRoomButton.setVisible(false);
 
         // add components to layered pane
         layeredPane.add(victoryJTextArea);
         layeredPane.add(attackButton);
         layeredPane.add(spellButton);
-        layeredPane.add(tutorialWizardLabel);
-        layeredPane.add(wizardDialogue2);
-        layeredPane.add(wizardDialogue1);
         layeredPane.add(playerLabel);
         layeredPane.add(enemyLabel);
         layeredPane.add(enemyLabel2);
         layeredPane.add(nextRoomButton);
         layeredPane.add(tutorialLabel);
 
-        
-
         add(layeredPane);
 
         checkEnemyHealth();
 
     }
-
-    
 
     public void drawEnemyHealth(Graphics g) {
         g2 = (Graphics2D) g;
@@ -334,47 +294,63 @@ wizardDialogue2.setBorder(dialogueBorder);
                 (enemyLabel2.getX() + enemyLabel2.getWidth())
                         - (int) (tutorialEnemy2.getMaxHealth() - tutorialEnemy2.getHealth()),
                 enemyLabel2.getY() + 125, (int) (tutorialEnemy2.getMaxHealth() - tutorialEnemy2.getHealth()), 20);
-
+        // these rectangles are for the player
+        g2.setColor(Color.GREEN);
+        g2.fillRect(playerLabel.getX(), playerLabel.getY() + 125, playerLabel.getWidth(), 20);
+        g2.setColor(Color.RED);
+        g2.fillRect(
+                (playerLabel.getX() + playerLabel.getWidth())
+                        - (int) (mainCharacter.getMaxHealth() - mainCharacter.getHealth()),
+                playerLabel.getY() + 125, (int) (mainCharacter.getMaxHealth() - mainCharacter.getHealth()), 20);
 
 
     }
-
 
     public void paint(Graphics g) {
         super.paint(g);
         drawEnemyHealth(g);
     }
 
-    public void UpdateFocusedEnemy(){
-        if (focusedJLabel == enemyLabel){
+    public void UpdateFocusedEnemy() {
+        if (focusedJLabel == enemyLabel) {
             focusedEnemy = tutorialEnemy;
-        }else if (focusedJLabel == enemyLabel2){
+        } else if (focusedJLabel == enemyLabel2) {
             focusedEnemy = tutorialEnemy2;
         }
     }
-
+    public void checkPlayerHealth(){
+        System.out.println("the health is: " + mainCharacter.getHealth());
+        if (mainCharacter.getHealth() <= 0){
+            mainCharacter.setHealth(0);
+attackButton.setVisible(false);
+spellButton.setVisible(false); 
+controlRepeatScore.setScoreMainCharacter(mainCharacter);
+cardDemo.nextCard();   
+    }
+        else{
+            repaint();
+        }
+    }
     public void checkEnemyHealth() {
-        if (tutorialEnemy.getHealth() <= 0 && tutorialEnemy2.getHealth() <=0) {
+        if (tutorialEnemy.getHealth() <= 0 && tutorialEnemy2.getHealth() <= 0) {
 
             tutorialEnemy.setHealth(0);
             tutorialEnemy2.setHealth(0);
             victoryJTextArea.setVisible(true);
-            wizardDialogue2.setVisible(true);
             nextRoomButton.setVisible(true);
 
-            mainCharacter.setPlayerGold(mainCharacter.getPlayerGold() + (tutorialEnemy.getGoldValue() + tutorialEnemy2.getGoldValue()));
+            mainCharacter.setPlayerGold(
+                    mainCharacter.getPlayerGold() + (tutorialEnemy.getGoldValue() + tutorialEnemy2.getGoldValue()));
 
             repaint();
 
-
-        } else if (tutorialEnemy.getHealth() <=0){
+        } else if (tutorialEnemy.getHealth() <= 0) {
             tutorialEnemy.setHealth(0);
             repaint();
-        } else if (tutorialEnemy2.getHealth() <=0){
+        } else if (tutorialEnemy2.getHealth() <= 0) {
             tutorialEnemy2.setHealth(0);
             repaint();
-        }
-        else {
+        } else {
             repaint();
         }
     }
@@ -395,13 +371,33 @@ wizardDialogue2.setBorder(dialogueBorder);
         }
     }
 
+    public void calcEnemyDamage(){
+        if (focusedEnemy.getName() == "Slime" || focusedEnemy.getName() == "Large Slime"){
+        enemyDamage = (int) (focusedEnemy.getStrength() + focusedEnemy.getAgility());}
+        else {
+            enemyDamage = (int) (focusedEnemy.getIntelligence() + focusedEnemy.getWisdom());
+        }
+
+        enemyDamage =  enemyDamage * (mainCharacter.getDamageMultiplier());
+        
+    }
+
+    
+
     private class AttackListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
             calcPhysicalDamage();
+            calcEnemyDamage();
             focusedEnemy.setHealth(focusedEnemy.getHealth() - physicalDamage);
             checkEnemyHealth();
+
+            if (focusedEnemy.getHealth() >= 0){
+                mainCharacter.setHealth(mainCharacter.getHealth() - enemyDamage);
+                checkPlayerHealth();
+            }
+
             System.out.println("The focused enemy is: " + focusedEnemy.getName());
         }
 
@@ -412,12 +408,19 @@ wizardDialogue2.setBorder(dialogueBorder);
         @Override
         public void actionPerformed(ActionEvent e) {
             calcMagicalDamage();
+            calcEnemyDamage();
             focusedEnemy.setHealth(focusedEnemy.getHealth() - magicalDamage);
             checkEnemyHealth();
+
+            if (focusedEnemy.getHealth() >= 0){
+                mainCharacter.setHealth(mainCharacter.getHealth() - enemyDamage);
+                checkPlayerHealth();
+            }
         }
 
     }
-    private class FocusListener implements MouseListener{
+
+    private class FocusListener implements MouseListener {
 
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -442,17 +445,23 @@ wizardDialogue2.setBorder(dialogueBorder);
         public void mouseExited(MouseEvent e) {
         }
 
-            
-        }
-        private class NextRoomListener implements ActionListener {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-    
-                cardDemo.nextCard();
-            }
-    
-        }
     }
 
+    private class NextRoomListener implements ActionListener {
 
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            System.out.println("The amount of money the main character has is: " + mainCharacter.getPlayerGold());
+     
+           
+            removeAll();
+            initRepeatPanel();
+            
+            mainCharacter = controlTutorial.getMainCharacter();
+            setRepeatMainCharacter(mainCharacter);
+        }
+
+    }
+
+}
